@@ -11,7 +11,7 @@ namespace ZBlog.Core.Entity.Auditing.Primitive.Impl
         public virtual void ModificationAuditing(ICoreService coreService)
         {
             LastModificationTime = DateTime.Now;
-            //LastModifierUserId = coreService.User?.Id != 0 ? coreService.User?.Id : null;
+            LastModifierUserId = coreService.User?.Id != 0 ? coreService.User?.Id : null;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace ZBlog.Core.Entity.Auditing.Primitive.Impl
         public virtual void DeletionAuditing(ICoreService coreService)
         {
             DeletionTime = DateTime.Now;
-            //DeleterUserId = coreService.User.Id;
+            DeleterUserId = coreService.User.Id;
             IsDeleted = true;
         }
 

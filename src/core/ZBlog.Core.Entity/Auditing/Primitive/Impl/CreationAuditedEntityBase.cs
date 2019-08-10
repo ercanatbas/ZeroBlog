@@ -14,7 +14,7 @@ namespace ZBlog.Core.Entity.Auditing.Primitive.Impl
             //if (Id.Equals(0))
             //    return;
             CreationTime = DateTime.Now;
-            //CreatorUserId = coreService.User?.Id != 0 ? coreService.User?.Id : null;
+            CreatorUserId = coreService.User?.Id != 0 ? coreService.User?.Id : null;
         }
     }
 }

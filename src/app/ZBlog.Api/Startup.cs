@@ -1,10 +1,15 @@
 ﻿using System;
 using Castle.Windsor.MsDependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using ZBlog.Api.Extensions;
+using ZBlog.Core.Authentication;
 using ZBlog.Core.Container;
 using ZBlog.Core.Error;
 
@@ -28,6 +33,19 @@ namespace ZBlog.Api
         {
             services.AddSingleton(Configuration);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddAuthentication(Microsoft.AspNetCore.Server.IISIntegration.IISDefaults.AuthenticationScheme);
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = ContainerManager.Instance.Resolve<ITokenProvider>().GetTokenValidationParameters();
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+            });
+            services.AddSwaggerDocumentation();
 
             var provider = WindsorRegistrationHelper.CreateServiceProvider(ContainerManager.Instance.WindsorContainer, services);
             return provider;
@@ -42,6 +60,7 @@ namespace ZBlog.Api
                 app.UseDeveloperExceptionPage();
 
             app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseSwaggerDocumentation();
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
