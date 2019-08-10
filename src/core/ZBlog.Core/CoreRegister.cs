@@ -2,6 +2,7 @@
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using ZBlog.Core.Container;
+using ZBlog.Core.Runtime;
 
 namespace ZBlog.Core
 {
@@ -10,6 +11,7 @@ namespace ZBlog.Core
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(Component.For<IResolverService>().ImplementedBy<ResolverService>().LifestyleTransient());
+            container.Register(Component.For<ICoreService>().ImplementedBy<CoreService>().LifestyleTransient());
         }
     }
 }

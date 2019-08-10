@@ -1,7 +1,9 @@
 ﻿using Castle.MicroKernel.Registration;
+using DapperExtensions.Sql;
 using ZBlog.Core;
 using ZBlog.Core.Configuration;
 using ZBlog.Core.Container;
+using ZBlog.Core.Entity.Map;
 
 namespace ZBlog.Api
 {
@@ -13,6 +15,12 @@ namespace ZBlog.Api
             ContainerManager.Instance.WindsorContainer.Install(new CoreRegister());
             var confManager = container.Register(Component.For<IConfigurationManager>().ImplementedBy<ConfigurationManager>().LifestyleSingleton()).Resolve<IConfigurationManager>() as ConfigurationManager;
 
+        }
+
+        public static void InitializeSettings()
+        {
+            DapperExtensions.DapperExtensions.DefaultMapper = typeof(DefaultEntityMapper<>);
+            DapperExtensions.DapperExtensions.SqlDialect = new MySqlDialect();
         }
     }
     

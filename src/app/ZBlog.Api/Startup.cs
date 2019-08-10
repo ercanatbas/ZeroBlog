@@ -36,6 +36,7 @@ namespace ZBlog.Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             BootStrapper.InitializeContainer();
+            BootStrapper.InitializeSettings();
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
