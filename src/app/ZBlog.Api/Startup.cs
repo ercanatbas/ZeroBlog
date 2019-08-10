@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ZBlog.Core.Container;
+using ZBlog.Core.Error;
 
 namespace ZBlog.Api
 {
@@ -39,6 +40,8 @@ namespace ZBlog.Api
             BootStrapper.InitializeSettings();
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
+
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             app.UseDefaultFiles();
             app.UseStaticFiles();

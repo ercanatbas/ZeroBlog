@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ZBlog.Core.Entity\ZBlog.Core.Entity.csproj" />
+    <ProjectReference Include="..\ZBlog.Core\ZBlog.Core.csproj" />
   </ItemGroup>
 
 </Project>
