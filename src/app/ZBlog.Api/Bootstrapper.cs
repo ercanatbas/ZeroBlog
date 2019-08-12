@@ -4,6 +4,8 @@ using ZBlog.Core;
 using ZBlog.Core.Configuration;
 using ZBlog.Core.Container;
 using ZBlog.Core.Entity.Map;
+using ZBlog.Domain;
+using ZBlog.Infrastructure;
 
 namespace ZBlog.Api
 {
@@ -12,7 +14,7 @@ namespace ZBlog.Api
         public static void InitializeContainer()
         {
             var container = ContainerManager.Instance.WindsorContainer;
-            ContainerManager.Instance.WindsorContainer.Install(new CoreRegister());
+            ContainerManager.Instance.WindsorContainer.Install(new CoreRegister(), new InfrastructureRegister(), new DomainRegister());
             var confManager = container.Register(Component.For<IConfigurationManager>().ImplementedBy<ConfigurationManager>().LifestyleSingleton()).Resolve<IConfigurationManager>() as ConfigurationManager;
 
         }
