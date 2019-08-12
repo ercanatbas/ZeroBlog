@@ -31,15 +31,6 @@ namespace ZBlog.Domain.Users
 
         #endregion
 
-        #region IsActive
-
-        public void SetIsActive(bool isActive)
-        {
-            IsActive = isActive;
-        }
-
-        #endregion
-
         #region Token
 
         public Token GetToken(ITokenProvider provider)

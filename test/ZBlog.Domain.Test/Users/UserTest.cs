@@ -11,7 +11,7 @@ namespace ZBlog.Domain.Test.Users
 
         #region UserCreate
 
-        [Test, Category("Unit")] // Seneryo : User başarıyla oluşturulur
+        [Test, Category("Unit")]
         public void UserCreate_ItShouldBeSuccessfully()
         {
             var user = User.Create("test","test","test@test.com","123456");

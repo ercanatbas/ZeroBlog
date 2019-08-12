@@ -7,8 +7,8 @@ using ZBlog.Application.Users.Impl;
 using ZBlog.Application.Users.Request;
 using ZBlog.Core.Authentication;
 using ZBlog.Core.Exceptions;
-using ZBlog.Core.Repository;
 using ZBlog.Domain.Users;
+using ZBlog.Domain.Users.Repo;
 using ZBlog.Test;
 
 namespace ZBlog.Application.Test.Users
@@ -18,14 +18,14 @@ namespace ZBlog.Application.Test.Users
     {
         #region .setup
 
-        private IRepository<User> _userRepository;
+        private IUserRepository _userRepository;
         private ITokenProvider _tokenProvider;
         private IAccountService _accountService;
 
         protected override void SetUp()
         {
             base.SetUp();
-            _userRepository = Substitute.For<IRepository<User>>();
+            _userRepository = Substitute.For<IUserRepository>();
             _tokenProvider = Substitute.For<ITokenProvider>();
             _accountService = new AccountService(_userRepository, _tokenProvider);
         }
@@ -34,7 +34,7 @@ namespace ZBlog.Application.Test.Users
 
         #region Login
 
-        [Test, Category("Unit")] //Senaryo: Bilgiler geçerli değilse kullanıcı bulunamaz ise oturum açılmaz
+        [Test, Category("Unit")]
         public void Login_AreLoginInformationValid()
         {
             var request = new LoginRequest
@@ -45,7 +45,7 @@ namespace ZBlog.Application.Test.Users
             _userRepository.Query(Args.AnyEntity<User>()).Returns(default(IEnumerable<User>));
             Assert.Throws<NotAuthenticationException>(() => _accountService.Login(request));
         }
-        [Test, Category("Unit")] //Senaryo: Kullanıcı aktif değilse hata fırlatır
+        [Test, Category("Unit")]
         public void Login_GIVENDeActiveUser_THENItShouldBeThrowsException()
         {
             var request = new LoginRequest
