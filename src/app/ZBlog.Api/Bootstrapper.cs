@@ -1,5 +1,6 @@
 ﻿using Castle.MicroKernel.Registration;
 using DapperExtensions.Sql;
+using ZBlog.Application;
 using ZBlog.Core;
 using ZBlog.Core.Configuration;
 using ZBlog.Core.Container;
@@ -14,9 +15,8 @@ namespace ZBlog.Api
         public static void InitializeContainer()
         {
             var container = ContainerManager.Instance.WindsorContainer;
-            ContainerManager.Instance.WindsorContainer.Install(new CoreRegister(), new InfrastructureRegister(), new DomainRegister());
+            ContainerManager.Instance.WindsorContainer.Install(new CoreRegister(), new InfrastructureRegister(), new DomainRegister(), new ApplicationRegister());
             var confManager = container.Register(Component.For<IConfigurationManager>().ImplementedBy<ConfigurationManager>().LifestyleSingleton()).Resolve<IConfigurationManager>() as ConfigurationManager;
-
         }
 
         public static void InitializeSettings()

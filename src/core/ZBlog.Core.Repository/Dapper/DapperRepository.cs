@@ -44,6 +44,12 @@ namespace ZBlog.Core.Repository.Dapper
 
             return result;
         }
+        public override IEnumerable<TEntity> Query(Expression<Func<TEntity, bool>> predicate)
+        {
+            var result = Connection.GetList<TEntity>(OnFilters(predicate), transaction: Transaction);
+            return result;
+        }
+
         public override IEnumerable<TEntity> Query(string query, object parameters = null)
         {
             var result = Connection.Query<TEntity>(query, parameters, Transaction);

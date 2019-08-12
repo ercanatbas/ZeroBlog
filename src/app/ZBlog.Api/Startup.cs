@@ -34,6 +34,11 @@ namespace ZBlog.Api
             services.AddSingleton(Configuration);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("LocalCorsPolicy", b => b
+                    .AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+            });
             services.AddAuthentication(Microsoft.AspNetCore.Server.IISIntegration.IISDefaults.AuthenticationScheme);
             services.AddAuthentication(options =>
             {
@@ -59,6 +64,7 @@ namespace ZBlog.Api
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
+            app.UseCors("LocalCorsPolicy");
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseSwaggerDocumentation();
 

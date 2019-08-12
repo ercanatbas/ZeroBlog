@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ZBlog.Core.Kernel;
@@ -14,6 +15,10 @@ namespace ZBlog.Core.Repository
         TEntity Get(TPrimaryKey id);
         Task<TEntity> GetAsync(TPrimaryKey id);
 
+        IEnumerable<TEntity> Query(Expression<Func<TEntity, bool>> predicate);
+
+        Task<TEntity> InsertAsync(TEntity entity);
+        Task<TEntity> UpdateAsync(TEntity entity);
         void Delete(Expression<Func<TEntity, bool>> predicate, bool force = false);
         Task DeleteAsync(Expression<Func<TEntity, bool>> predicate);
     }

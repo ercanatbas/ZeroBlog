@@ -32,14 +32,12 @@ namespace ZBlog.Core.Repository.Dapper
                     return ActiveTransaction.GetConnection();
 
                 connection = CreateConnection();
-                connection.Disposed += (sender, args) =>
                 connection.ConnectionString = _coreService.GetConnectionString();
 
                 if (!string.IsNullOrEmpty(connection.ConnectionString))
                 {
                     connection.Open();
                     _openConnectionCount++;
-                    connection.GetHashCode();
                 }
                 else
                     throw new Exception("Connecting string not found");

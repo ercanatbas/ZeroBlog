@@ -22,6 +22,10 @@ namespace ZBlog.Core.Repository
 
         public abstract TEntity Get(TPrimaryKey id);
         public virtual Task<TEntity> GetAsync(TPrimaryKey id) => Task.FromResult(Get(id));
+        public abstract IEnumerable<TEntity> Query(Expression<Func<TEntity, bool>> predicate);
+
+        public virtual Task<TEntity> InsertAsync(TEntity entity) => Task.FromResult(Insert(entity));
+        public virtual Task<TEntity> UpdateAsync(TEntity entity) => Task.FromResult(Update(entity));
         public abstract void Delete(Expression<Func<TEntity, bool>> predicate, bool force = false);
         public virtual Task DeleteAsync(Expression<Func<TEntity, bool>> predicate) => Task.Run(() => Delete(predicate));
     }
