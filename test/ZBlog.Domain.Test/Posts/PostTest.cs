@@ -10,18 +10,6 @@ namespace ZBlog.Domain.Test.Posts
     [TestFixture]
     public class PostTest : TestBase
     {
-        #region .setup
-
-        private IUserRepository _userRepository;
-
-        protected override void SetUp()
-        {
-            base.SetUp();
-            _userRepository = Substitute.For<IUserRepository>();
-        }
-
-        #endregion
-
         #region PostCreate
 
         [Test, Category("Unit")]

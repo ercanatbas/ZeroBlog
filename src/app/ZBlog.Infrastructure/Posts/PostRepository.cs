@@ -21,5 +21,12 @@ namespace ZBlog.Infrastructure.Posts
                 throw new RecordNotFoundException("Post", postId);
             return post;
         }
+        public Post GetCommentForPost(int postId)
+        {
+            var post = Query(x =>  x.Id == postId)?.FirstOrDefault();
+            if (post == null)
+                throw new RecordNotFoundException("Post", postId);
+            return post;
+        }
     }
 }

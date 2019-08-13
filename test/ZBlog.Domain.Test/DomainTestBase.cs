@@ -1,4 +1,5 @@
-﻿using ZBlog.Domain.Posts;
+﻿using ZBlog.Domain.Comments;
+using ZBlog.Domain.Posts;
 using ZBlog.Domain.Users;
 
 namespace ZBlog.Domain.Test
@@ -13,6 +14,11 @@ namespace ZBlog.Domain.Test
         public static Post CreateAPost(string title = "test", string content = "test")
         {
             return Post.Create(CreateAUser(), title, content);
+        }
+
+        public static Comment CreateAComment(string firstName = "test", string lastName = "test", string message = "test")
+        {
+            return Comment.Create(CreateAPost(), firstName, lastName, message);
         }
     }
 }
