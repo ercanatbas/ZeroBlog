@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using NSubstitute;
+﻿using NSubstitute;
 using NUnit.Framework;
 using Shouldly;
+using System.Collections.Generic;
 using ZBlog.Application.Posts;
 using ZBlog.Application.Posts.Impl;
 using ZBlog.Application.Posts.Request;
 using ZBlog.Application.Posts.Result;
+using ZBlog.Core.Cache;
 using ZBlog.Core.Map;
 using ZBlog.Core.Runtime;
 using ZBlog.Domain.Posts;
@@ -25,6 +26,7 @@ namespace ZBlog.Application.Test.Posts
         private IUserRepository _userRepository;
         private IPostRepository _postRepository;
         private ICoreService _coreService;
+        private ICacheService _cacheService;
         private IMapperService _mapperService;
 
         protected override void SetUp()
@@ -33,8 +35,9 @@ namespace ZBlog.Application.Test.Posts
             _userRepository = Substitute.For<IUserRepository>();
             _postRepository = Substitute.For<IPostRepository>();
             _coreService = Substitute.For<ICoreService>();
+            _cacheService = Substitute.For<ICacheService>();
             _mapperService = Substitute.For<IMapperService>();
-            _postService = new PostService(_postRepository, _userRepository, _coreService, _mapperService);
+            _postService = new PostService(_postRepository, _userRepository, _cacheService, _coreService, _mapperService);
         }
 
         #endregion
@@ -140,7 +143,7 @@ namespace ZBlog.Application.Test.Posts
         {
             _postRepository.Query(Args.AnyEntity<Post>()).Returns(DomainTestBase.CreateAPost().ToList());
             _mapperService.Map<IEnumerable<PostSearchResult>>(Arg.Any<List<Post>>())
-                .Returns(new PostSearchResult { Id = 1, Title = "test", Content = "test"}.ToList());
+                .Returns(new PostSearchResult { Id = 1, Title = "test", Content = "test" }.ToList());
 
             var result = _postService.SearchPost(new PostSearchRequest
             {

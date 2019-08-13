@@ -4,4 +4,10 @@
     {
         public string Default { get; set; }
     }
+
+
+    public class CacheConfig
+    {
+        public string RedisConnection { get; set; }
+    }
 }

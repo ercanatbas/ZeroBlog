@@ -4,5 +4,6 @@
     {
         string ApplicationName { get; set; }
         ConnectionStringConfig ConnectionString { get; set; }
+        CacheConfig Cache { get; set; }
     }
 }

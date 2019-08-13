@@ -2,6 +2,7 @@
 using System.Linq;
 using ZBlog.Application.Posts.Request;
 using ZBlog.Application.Posts.Result;
+using ZBlog.Core.Cache;
 using ZBlog.Core.Entity;
 using ZBlog.Core.Map;
 using ZBlog.Core.Runtime;
@@ -17,14 +18,16 @@ namespace ZBlog.Application.Posts.Impl
 
         private readonly IPostRepository _postRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ICacheService _cacheService;
         private readonly ICoreService _coreService;
         private readonly IMapperService _mapperService;
 
-        public PostService(IPostRepository postRepository, IUserRepository userRepository, ICoreService coreService,
-            IMapperService mapperService)
+        public PostService(IPostRepository postRepository, IUserRepository userRepository, ICacheService cacheService,
+            ICoreService coreService, IMapperService mapperService)
         {
             _postRepository = postRepository;
             _userRepository = userRepository;
+            _cacheService = cacheService;
             _coreService = coreService;
             _mapperService = mapperService;
         }
@@ -38,6 +41,7 @@ namespace ZBlog.Application.Posts.Impl
             request.Validate<PostRequestValidator, PostRequest>();
             var post = Post.Create(_userRepository.GetUser(_coreService.User.Id), request.Title, request.Content);
             var result = _postRepository.Insert(post);
+            _cacheService.Insert(Caches.Post, result, result.Id);
             return result.Id;
         }
 
@@ -51,6 +55,7 @@ namespace ZBlog.Application.Posts.Impl
             var post = _postRepository.GetPost(_coreService.User.Id, request.Id);
             post.Update(request.Title, request.Content);
             _postRepository.Update(post);
+            _cacheService.Update(Caches.Post, post, post.Id);
         }
 
         #endregion
@@ -59,8 +64,9 @@ namespace ZBlog.Application.Posts.Impl
 
         public void DeleteAPost(int postId)
         {
-            _postRepository.GetPost(_coreService.User.Id, postId);
+            var post = _postRepository.GetPost(_coreService.User.Id, postId);
             _postRepository.Delete(x => x.Id == postId);
+            _cacheService.Remove(Caches.Post, post, postId);
         }
 
         #endregion
@@ -79,8 +85,14 @@ namespace ZBlog.Application.Posts.Impl
 
         public IEnumerable<PostResult> GetAllPost()
         {
-            var posts = _postRepository.Query(x => x.Title != null)?.ToList().OrderByDescending(x => x.CreationTime);
-            return _mapperService.Map<IEnumerable<PostResult>>(posts);
+            var cacheResult = _cacheService.GetList<PostResult>(Caches.Post);
+            if (cacheResult != null) return cacheResult;
+
+            var posts = _postRepository.Query(x => x.Title != null)?.ToList()
+                .OrderByDescending(x => x.CreationTime);
+            var postResults = _mapperService.Map<IEnumerable<PostResult>>(posts);
+            _cacheService.GetList(Caches.Post, () => postResults);
+            return postResults;
         }
 
         #endregion

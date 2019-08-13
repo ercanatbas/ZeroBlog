@@ -6,6 +6,7 @@ namespace ZBlog.Core.Configuration
     {
         public string ApplicationName { get; set; }
         public ConnectionStringConfig ConnectionString { get; set; }
+        public CacheConfig Cache { get; set; }
 
         #region .ctor
 
