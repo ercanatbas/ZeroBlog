@@ -13,6 +13,7 @@ namespace ZBlog.Application.Posts.Request
     {
         public PostRequestValidator()
         {
+            RuleFor(x => x).NotNull();
             RuleFor(x => x.Title).NotNull().NotEmpty().MinimumLength(2);
             RuleFor(x => x.Content).NotNull().NotEmpty().MinimumLength(2);
         }
@@ -28,6 +29,7 @@ namespace ZBlog.Application.Posts.Request
     {
         public UpdateRequestValidator()
         {
+            RuleFor(x => x).NotNull();
             RuleFor(x => x.Id).NotNull().GreaterThan(0);
             RuleFor(x => x.Title).NotNull().NotEmpty().MinimumLength(2);
             RuleFor(x => x.Content).NotNull().NotEmpty().MinimumLength(2);
@@ -46,6 +48,7 @@ namespace ZBlog.Application.Posts.Request
     {
         public PostSearchRequestValidator()
         {
+            RuleFor(x => x).NotNull();
             RuleFor(x => x.Title).NotNull().NotEmpty().MinimumLength(2);
             RuleFor(x => x.Content).NotNull().NotEmpty().MinimumLength(2);
         }

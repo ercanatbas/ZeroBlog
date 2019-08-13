@@ -14,6 +14,8 @@ namespace ZBlog.Application.Comments.Request
     {
         public CommentRequestValidator()
         {
+            RuleFor(x => x).NotNull();
+            RuleFor(x => x.PostId).NotNull().GreaterThan(0);
             RuleFor(x => x.FirstName).NotNull().NotEmpty().MinimumLength(2);
             RuleFor(x => x.LastName).NotNull().NotEmpty().MinimumLength(2);
             RuleFor(x => x.Message).NotNull().NotEmpty().MinimumLength(2);
@@ -28,6 +30,8 @@ namespace ZBlog.Application.Comments.Request
     {
         public UpdateCommentRequestValidator()
         {
+            RuleFor(x => x).NotNull();
+            RuleFor(x => x.PostId).NotNull().GreaterThan(0);
             RuleFor(x => x.FirstName).NotNull().NotEmpty().MinimumLength(2);
             RuleFor(x => x.LastName).NotNull().NotEmpty().MinimumLength(2);
             RuleFor(x => x.Message).NotNull().NotEmpty().MinimumLength(2);

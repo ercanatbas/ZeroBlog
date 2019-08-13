@@ -11,6 +11,7 @@ namespace ZBlog.Application.Users.Request
     {
         public LoginRequestValidator()
         {
+            RuleFor(x => x).NotNull();
             RuleFor(x => x.MailAddress).EmailAddress().NotNull().WithMessage("Mail address is required").NotEmpty();
             RuleFor(x => x.Password).NotNull().NotEmpty().MinimumLength(6);
         }

@@ -2,10 +2,8 @@
 using System.Linq;
 using ZBlog.Application.Comments.Request;
 using ZBlog.Application.Comments.Result;
-using ZBlog.Core;
 using ZBlog.Core.Entity;
 using ZBlog.Core.Map;
-using ZBlog.Core.Runtime;
 using ZBlog.Domain.Comments;
 using ZBlog.Domain.Comments.Repo;
 using ZBlog.Domain.Posts.Repo;
@@ -19,14 +17,12 @@ namespace ZBlog.Application.Comments.Impl
         private readonly ICommentRepository _commentRepository;
         private readonly IMapperService _mapperService;
         private readonly IPostRepository _postRepository;
-        private readonly ICoreService _coreService;
 
-        public CommentService(ICommentRepository commentRepository, IPostRepository postRepository, ICoreService coreService, IMapperService mapperService)
+        public CommentService(ICommentRepository commentRepository, IPostRepository postRepository, IMapperService mapperService)
         {
             _commentRepository = commentRepository;
             _mapperService = mapperService;
             _postRepository = postRepository;
-            _coreService = coreService;
         }
 
         #endregion
@@ -35,7 +31,6 @@ namespace ZBlog.Application.Comments.Impl
 
         public int CreateAComment(CommentRequest request)
         {
-            Check.NotNullOrEmpty(request.PostId, nameof(request.PostId));
             request.Validate<CommentRequestValidator, CommentRequest>();
             var comment = Comment.Create(_postRepository.GetCommentForPost(request.PostId), request.FirstName, request.LastName, request.Message);
             var result = _commentRepository.Insert(comment);
@@ -48,7 +43,6 @@ namespace ZBlog.Application.Comments.Impl
 
         public void UpdateAComment(UpdateCommentRequest request)
         {
-            Check.NotNullOrEmpty(request.PostId, nameof(request.PostId));
             request.Validate<UpdateCommentRequestValidator, UpdateCommentRequest>();
             var comment = _commentRepository.GetComment(request.Id, request.PostId);
             comment.Update(request.FirstName, request.LastName, request.Message);
@@ -70,7 +64,7 @@ namespace ZBlog.Application.Comments.Impl
 
         public IEnumerable<CommentResult> GetAllComments(int postId)
         {
-            var comments = _commentRepository.Query(x => x.PostId == postId)?.ToList();
+            var comments = _commentRepository.Query(x => x.PostId == postId)?.ToList().OrderBy(x => x.CreationTime);
             return _mapperService.Map<IEnumerable<CommentResult>>(comments);
         }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace ZBlog.Core.Repository.Dapper.Expressions
+namespace ZBlog.Core.Repository.Dapper
 {
     internal class Evaluator
     {

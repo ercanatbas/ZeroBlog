@@ -79,7 +79,7 @@ namespace ZBlog.Application.Posts.Impl
 
         public IEnumerable<PostResult> GetAllPost()
         {
-            var posts = _postRepository.Query(x => x.UserId == _coreService.User.Id)?.ToList();
+            var posts = _postRepository.Query(x => x.Title != null)?.ToList().OrderByDescending(x => x.CreationTime);
             return _mapperService.Map<IEnumerable<PostResult>>(posts);
         }
 

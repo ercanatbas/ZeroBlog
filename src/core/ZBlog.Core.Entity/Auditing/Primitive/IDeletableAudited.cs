@@ -1,6 +1,4 @@
-﻿using ZBlog.Core.Entity.Auditing.Primitive;
-
-namespace ZBlog.Core.Entity.Auditing
+﻿namespace ZBlog.Core.Entity.Auditing.Primitive
 {
     public interface IDeletableAudited : IModificationAudited, IDeletionAudited
     {

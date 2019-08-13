@@ -1,8 +1,6 @@
-﻿using NSubstitute;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Shouldly;
 using ZBlog.Domain.Posts;
-using ZBlog.Domain.Users.Repo;
 using ZBlog.Test;
 
 namespace ZBlog.Domain.Test.Posts

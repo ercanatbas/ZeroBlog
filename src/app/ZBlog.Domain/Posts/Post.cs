@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using ZBlog.Core.Entity;
+﻿using ZBlog.Core.Entity;
 using ZBlog.Core.Entity.Auditing.Primitive.Impl;
-using ZBlog.Domain.Comments;
 using ZBlog.Domain.Posts.Validations;
 using ZBlog.Domain.Users;
 
@@ -12,7 +10,6 @@ namespace ZBlog.Domain.Posts
         public string Title { get; protected set; }
         public string Content { get; protected set; }
         public int UserId { get; protected set; }
-        public ICollection<Comment> Comments { get; set; }
 
         protected Post()
         {
@@ -26,8 +23,7 @@ namespace ZBlog.Domain.Posts
             {
                 UserId = user.Id,
                 Title = title,
-                Content = content,
-                Comments = new List<Comment>()
+                Content = content
             };
             post.Validate<PostValidator, Post>();
             return post;

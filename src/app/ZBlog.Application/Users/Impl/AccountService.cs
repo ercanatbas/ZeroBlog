@@ -5,8 +5,6 @@ using ZBlog.Core.Authentication;
 using ZBlog.Core.Entity;
 using ZBlog.Core.Exceptions;
 using ZBlog.Core.Extension;
-using ZBlog.Core.Repository;
-using ZBlog.Domain.Users;
 using ZBlog.Domain.Users.Repo;
 
 namespace ZBlog.Application.Users.Impl

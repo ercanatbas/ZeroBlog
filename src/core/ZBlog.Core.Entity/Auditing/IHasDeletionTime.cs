@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using Newtonsoft.Json;
 
-namespace ZBlog.Core.Entity
+namespace ZBlog.Core.Entity.Auditing
 {
     public interface IHasDeletionTime : ISoftDelete
     {

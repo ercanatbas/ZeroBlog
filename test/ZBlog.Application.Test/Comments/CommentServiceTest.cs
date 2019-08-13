@@ -7,7 +7,6 @@ using ZBlog.Application.Comments.Impl;
 using ZBlog.Application.Comments.Request;
 using ZBlog.Application.Comments.Result;
 using ZBlog.Core.Map;
-using ZBlog.Core.Runtime;
 using ZBlog.Domain.Comments;
 using ZBlog.Domain.Comments.Repo;
 using ZBlog.Domain.Posts.Repo;
@@ -24,16 +23,14 @@ namespace ZBlog.Application.Test.Comments
         private ICommentService _commentService;
         private ICommentRepository _commentRepository;
         private IPostRepository _postRepository;
-        private ICoreService _coreService;
         private IMapperService _mapperService;
         public CommentServiceTest()
         {
             base.SetUp();
             _commentRepository = Substitute.For<ICommentRepository>();
             _postRepository = Substitute.For<IPostRepository>();
-            _coreService = Substitute.For<ICoreService>();
             _mapperService = Substitute.For<IMapperService>();
-            _commentService = new CommentService(_commentRepository, _postRepository, _coreService, _mapperService);
+            _commentService = new CommentService(_commentRepository, _postRepository, _mapperService);
         }
 
         #endregion

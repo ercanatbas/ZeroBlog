@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ZBlog.Core.Authentication
+﻿namespace ZBlog.Core.Authentication
 {
     public class TokenUser : ITokenUser
     {
