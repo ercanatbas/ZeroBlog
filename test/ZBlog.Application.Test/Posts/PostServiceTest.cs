@@ -132,5 +132,26 @@ namespace ZBlog.Application.Test.Posts
         }
 
         #endregion
+
+        #region SearchPost
+
+        [Test, Category("Unit")]
+        public void SearchPost_WHENGetting_THENItBecomesSuccessfully()
+        {
+            _postRepository.Query(Args.AnyEntity<Post>()).Returns(DomainTestBase.CreateAPost().ToList());
+            _mapperService.Map<IEnumerable<PostSearchResult>>(Arg.Any<List<Post>>())
+                .Returns(new PostSearchResult { Id = 1, Title = "test", Content = "test"}.ToList());
+
+            var result = _postService.SearchPost(new PostSearchRequest
+            {
+                Content = "test",
+                Title = "test"
+            });
+
+            result.ShouldNotBeNull();
+            _postRepository.Received(1).Query(Args.AnyEntity<Post>());
+        }
+
+        #endregion
     }
 }

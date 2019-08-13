@@ -33,4 +33,21 @@ namespace ZBlog.Application.Posts.Request
             RuleFor(x => x.Content).NotNull().NotEmpty().MinimumLength(2);
         }
     }
+
+    public class PostSearchRequest : PostBase
+    {
+        [JsonIgnore]
+        public override int Id { get; set; }
+        [JsonIgnore]
+        public override int UserId { get; set; }
+    }
+
+    public class PostSearchRequestValidator : AbstractValidator<PostSearchRequest>
+    {
+        public PostSearchRequestValidator()
+        {
+            RuleFor(x => x.Title).NotNull().NotEmpty().MinimumLength(2);
+            RuleFor(x => x.Content).NotNull().NotEmpty().MinimumLength(2);
+        }
+    }
 }

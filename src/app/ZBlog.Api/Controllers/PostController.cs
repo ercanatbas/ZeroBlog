@@ -51,8 +51,15 @@ namespace ZBlog.Api.Controllers
         public IActionResult GetAPost(int postId) => Ok(_postService.GetAPost(postId));
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("all")]
         [ProducesResponseType(typeof(IEnumerable<PostResult>), 200)]
         public IActionResult GetAllPost() => Ok(_postService.GetAllPost());
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("search")]
+        [ProducesResponseType(typeof(IEnumerable<PostSearchResult>), 200)]
+        public IActionResult SearchPost([FromBody] PostSearchRequest request) => Ok(_postService.GetAllPost());
     }
 }

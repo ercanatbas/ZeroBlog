@@ -9,6 +9,7 @@ namespace ZBlog.Application.Posts.Map
         public PostMap()
         {
             CreateMap<Post, PostResult>();
+            CreateMap<Post, PostSearchResult>();
         }
     }
 }

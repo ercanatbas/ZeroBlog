@@ -83,6 +83,16 @@ namespace ZBlog.Application.Posts.Impl
             return _mapperService.Map<IEnumerable<PostResult>>(posts);
         }
 
+        #endregion
+
+        #region SearchPost
+
+        public IEnumerable<PostSearchResult> SearchPost(PostSearchRequest request)
+        {
+            request.Validate<PostSearchRequestValidator, PostSearchRequest>();
+            var posts = _postRepository.Query(x => x.Content == request.Content || x.Title == request.Title)?.ToList();
+            return _mapperService.Map<IEnumerable<PostSearchResult>>(posts);
+        }
 
         #endregion
     }
