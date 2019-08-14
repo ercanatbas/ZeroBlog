@@ -81,7 +81,7 @@ namespace ZBlog.Infrastructure.Cache
                 {
                     var list = new RedisDictionary<int, TModel>(key, connection);
                     list.AddMultiple(model.Select(x =>
-                        new KeyValuePair<int, TModel>(Convert.ToInt32(x.GetType().GetProperty(keyColumn).GetValue(x)), x)));
+                        new KeyValuePair<int, TModel>(Convert.ToInt32(x.GetType().GetProperty(keyColumn)?.GetValue(x)), x)));
                 }
             }
             catch

@@ -50,6 +50,7 @@ namespace ZBlog.Application.Test.Posts
             _coreService.User.Id.Returns(1);
             _userRepository.GetUser(Arg.Any<int>()).Returns(DomainTestBase.CreateAUser());
             _postRepository.Insert(Arg.Any<Post>()).Returns(DomainTestBase.CreateAPost());
+            _cacheService.Insert(Arg.Any<string>(), Arg.Any<Post>(), Arg.Any<int>());
 
             var result = _postService.CreateAPost(new PostRequest
             {
@@ -60,6 +61,7 @@ namespace ZBlog.Application.Test.Posts
             result.ShouldNotBeNull();
             _userRepository.Received(1).GetUser(Arg.Any<int>());
             _postRepository.Received(1).Insert(Arg.Any<Post>());
+            _cacheService.Received(1).Insert(Arg.Any<string>(), Arg.Any<Post>(), Arg.Any<int>());
         }
 
         #endregion
@@ -71,6 +73,7 @@ namespace ZBlog.Application.Test.Posts
         {
             _coreService.User.Id.Returns(1);
             _postRepository.GetPost(Arg.Any<int>(), Arg.Any<int>()).Returns(DomainTestBase.CreateAPost());
+            _cacheService.Update(Arg.Any<string>(), Arg.Any<Post>(), Arg.Any<int>());
 
             _postService.UpdateAPost(new UpdateRequest
             {
@@ -81,6 +84,7 @@ namespace ZBlog.Application.Test.Posts
 
             _postRepository.Received(1).GetPost(Arg.Any<int>(), Arg.Any<int>());
             _postRepository.Received(1).Update(Arg.Any<Post>());
+            _cacheService.Received(1).Update(Arg.Any<string>(), Arg.Any<Post>(), Arg.Any<int>());
         }
 
         #endregion
@@ -93,9 +97,11 @@ namespace ZBlog.Application.Test.Posts
             _postRepository.GetPost(Arg.Any<int>(), Arg.Any<int>()).Returns(DomainTestBase.CreateAPost());
 
             _postService.DeleteAPost(1);
+            _cacheService.Remove(Arg.Any<string>(), Arg.Any<Post>(), Arg.Any<int>());
 
             _postRepository.Received(1).GetPost(Arg.Any<int>(), Arg.Any<int>());
             _postRepository.Received(1).Delete(Args.AnyEntity<Post>());
+            _cacheService.Received(1).Remove(Arg.Any<string>(), Arg.Any<Post>(), Arg.Any<int>());
         }
 
         #endregion
@@ -121,9 +127,10 @@ namespace ZBlog.Application.Test.Posts
         #region GetAllPost
 
         [Test, Category("Unit")]
-        public void GetAllPost_WHENGetting_THENItBecomesSuccessfully()
+        public void GetAllPost_WHENGettingDatabase_THENItBecomesSuccessfully()
         {
             _coreService.User.Id.Returns(1);
+            _cacheService.GetList<PostResult>(Arg.Any<string>()).Returns((IEnumerable<PostResult>) null);
             _postRepository.Query(Args.AnyEntity<Post>()).Returns(DomainTestBase.CreateAPost().ToList());
             _mapperService.Map<IEnumerable<PostResult>>(Arg.Any<List<Post>>())
                 .Returns(new PostResult { Id = 1, Title = "test" }.ToList());
@@ -132,6 +139,21 @@ namespace ZBlog.Application.Test.Posts
 
             result.ShouldNotBeNull();
             _postRepository.Received(1).Query(Args.AnyEntity<Post>());
+            _cacheService.Received(1).GetList<PostResult>(Arg.Any<string>());
+        }
+
+        [Test, Category("Unit")]
+        public void GetAllPost_WHENGettingCache_THENItBecomesSuccessfully()
+        {
+            _coreService.User.Id.Returns(1);
+            _cacheService.GetList<PostResult>(Arg.Any<string>()).Returns(new List<PostResult>());
+            _mapperService.Map<IEnumerable<PostResult>>(Arg.Any<List<Post>>())
+                .Returns(new PostResult { Id = 1, Title = "test" }.ToList());
+
+            var result = _postService.GetAllPost();
+
+            result.ShouldNotBeNull();
+            _cacheService.Received(1).GetList<PostResult>(Arg.Any<string>());
         }
 
         #endregion
