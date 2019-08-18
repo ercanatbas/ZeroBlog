@@ -67,7 +67,7 @@ namespace ZBlog.Infrastructure.Cache
             }
             set
             {
-                if (!this.ContainsKey(key))
+                if (!ContainsKey(key))
                     Add(key, value);
             }
         }

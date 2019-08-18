@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ZBlog.Application.Posts.Request;
 using ZBlog.Application.Posts.Result;
+using ZBlog.Domain.Posts.Dtos;
 
 namespace ZBlog.Application.Posts
 {
@@ -11,6 +12,6 @@ namespace ZBlog.Application.Posts
         void DeleteAPost(int postId);
         PostResult GetAPost(int postId);
         IEnumerable<PostResult> GetAllPost();
-        IEnumerable<PostSearchResult> SearchPost(PostSearchRequest request);
+        IEnumerable<PostSearchDto> SearchPost(PostSearchRequest request);
     }
 }

@@ -154,7 +154,6 @@ namespace ZBlog.Core.Repository.Dapper
 
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
-            //if (node.Type == typeof(bool) && node.Method.DeclaringType == typeof(string))
             if (node.Type == typeof(bool))
             {
                 object arg = ((ConstantExpression)node.Arguments[0]).Value;

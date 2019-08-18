@@ -7,11 +7,16 @@ project.lock.json
 *.pyc
 nupkg/
 
+redis/
+mysql-data/
+
 # Visual Studio Code
 .vscode
 
 # Rider
 .idea
+
+.sonarqube
 
 # User-specific files
 *.suo

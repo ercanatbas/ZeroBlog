@@ -64,7 +64,7 @@ namespace ZBlog.Application.Comments.Impl
 
         public IEnumerable<CommentResult> GetAllComments(int postId)
         {
-            var comments = _commentRepository.Query(x => x.PostId == postId)?.ToList().OrderBy(x => x.CreationTime);
+            var comments = _commentRepository.Query(x => x.PostId == postId)?.OrderBy(x => x.CreationTime).AsEnumerable();
             return _mapperService.Map<IEnumerable<CommentResult>>(comments);
         }
 

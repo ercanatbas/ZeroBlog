@@ -7,6 +7,7 @@ using ZBlog.Core.Entity;
 using ZBlog.Core.Map;
 using ZBlog.Core.Runtime;
 using ZBlog.Domain.Posts;
+using ZBlog.Domain.Posts.Dtos;
 using ZBlog.Domain.Posts.Repo;
 using ZBlog.Domain.Users.Repo;
 
@@ -88,8 +89,8 @@ namespace ZBlog.Application.Posts.Impl
             var cacheResult = _cacheService.GetList<PostResult>(Caches.Post);
             if (cacheResult != null) return cacheResult;
 
-            var posts = _postRepository.Query(x => x.Title != null)?.ToList()
-                .OrderByDescending(x => x.CreationTime);
+            var posts = _postRepository.Query(x => x.Title != null)?
+                .OrderByDescending(x => x.CreationTime).AsEnumerable();
             var postResults = _mapperService.Map<IEnumerable<PostResult>>(posts);
             _cacheService.GetList(Caches.Post, () => postResults);
             return postResults;
@@ -99,11 +100,10 @@ namespace ZBlog.Application.Posts.Impl
 
         #region SearchPost
 
-        public IEnumerable<PostSearchResult> SearchPost(PostSearchRequest request)
+        public IEnumerable<PostSearchDto> SearchPost(PostSearchRequest request)
         {
             request.Validate<PostSearchRequestValidator, PostSearchRequest>();
-            var posts = _postRepository.Query(x => x.Content == request.Content || x.Title == request.Title)?.ToList();
-            return _mapperService.Map<IEnumerable<PostSearchResult>>(posts);
+            return _postRepository.SearchPost(request.Search);
         }
 
         #endregion

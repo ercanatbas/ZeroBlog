@@ -11,8 +11,6 @@ namespace ZBlog.Core.Entity.Auditing.Primitive.Impl
 
         public virtual void CreationAuditing(ICoreService coreService)
         {
-            //if (Id.Equals(0))
-            //    return;
             CreationTime = DateTime.Now;
             CreatorUserId = coreService.User?.Id != 0 ? coreService.User?.Id : null;
         }

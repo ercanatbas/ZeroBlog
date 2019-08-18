@@ -16,7 +16,7 @@ namespace ZBlog.Api
         {
             var container = ContainerManager.Instance.WindsorContainer;
             ContainerManager.Instance.WindsorContainer.Install(new CoreRegister(), new InfrastructureRegister(), new DomainRegister(), new ApplicationRegister());
-            var confManager = container.Register(Component.For<IConfigurationManager>().ImplementedBy<ConfigurationManager>().LifestyleSingleton()).Resolve<IConfigurationManager>() as ConfigurationManager;
+            container.Register(Component.For<IConfigurationManager>().ImplementedBy<ConfigurationManager>().LifestyleSingleton()).Resolve<IConfigurationManager>();
         }
 
         public static void InitializeSettings()

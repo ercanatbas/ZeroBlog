@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZBlog.Application.Comments;
 using ZBlog.Application.Comments.Request;
-using ZBlog.Application.Comments.Result;
 
 namespace ZBlog.Api.Controllers
 {
@@ -45,10 +43,5 @@ namespace ZBlog.Api.Controllers
             _commentService.DeleteAComment(postId, commentId);
             return Ok();
         }
-
-        [HttpGet]
-        [Route("{postId}/all")]
-        [ProducesResponseType(typeof(IEnumerable<CommentResult>), 200)]
-        public IActionResult GetAllPost(int postId) => Ok(_commentService.GetAllComments(postId));
     }
 }

@@ -10,6 +10,7 @@ using ZBlog.Core.Cache;
 using ZBlog.Core.Map;
 using ZBlog.Core.Runtime;
 using ZBlog.Domain.Posts;
+using ZBlog.Domain.Posts.Dtos;
 using ZBlog.Domain.Posts.Repo;
 using ZBlog.Domain.Test;
 using ZBlog.Domain.Users.Repo;
@@ -163,18 +164,15 @@ namespace ZBlog.Application.Test.Posts
         [Test, Category("Unit")]
         public void SearchPost_WHENGetting_THENItBecomesSuccessfully()
         {
-            _postRepository.Query(Args.AnyEntity<Post>()).Returns(DomainTestBase.CreateAPost().ToList());
-            _mapperService.Map<IEnumerable<PostSearchResult>>(Arg.Any<List<Post>>())
-                .Returns(new PostSearchResult { Id = 1, Title = "test", Content = "test" }.ToList());
+            _postRepository.SearchPost(Arg.Any<string>()).Returns(new PostSearchDto{Title = "test"}.ToList());
 
             var result = _postService.SearchPost(new PostSearchRequest
             {
-                Content = "test",
-                Title = "test"
+                Search = "test"
             });
 
             result.ShouldNotBeNull();
-            _postRepository.Received(1).Query(Args.AnyEntity<Post>());
+            _postRepository.Received(1).SearchPost(Arg.Any<string>());
         }
 
         #endregion

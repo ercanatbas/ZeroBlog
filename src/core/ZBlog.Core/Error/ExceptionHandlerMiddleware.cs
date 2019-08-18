@@ -39,16 +39,18 @@ namespace ZBlog.Core.Error
                 if (zBlogException is NotValidatedException ex)
                     result = new ServiceResult(ex.ValidationResult.Errors.Select(x => new ServiceError(x.ErrorCode, x.ErrorMessage)).Cast<IServiceError>().ToList(), 400);
                 else
-                    result = new ServiceResult(new ServiceError(zBlogException?.StatusCode.ToString(), zBlogException?.Message), zBlogException.StatusCode);
+                    result = new ServiceResult(new ServiceError(zBlogException?.StatusCode.ToString(), zBlogException?.Message), zBlogException?.StatusCode ?? 500);
             }
             else
                 result = new ServiceResult(new ServiceError("500", exception.GetType().Name, exception), 500);
 
             context.Response.StatusCode = result.Code;
             context.Response.ContentType = "application/json; charset=utf-8";
-            await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(result, Formatting.None ,new JsonSerializerSettings
+            { 
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            }));
 
-            // TODO: Log add
             return result;
         }
     }

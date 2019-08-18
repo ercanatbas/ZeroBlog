@@ -36,12 +36,9 @@ namespace ZBlog.Application.Posts.Request
         }
     }
 
-    public class PostSearchRequest : PostBase
+    public class PostSearchRequest
     {
-        [JsonIgnore]
-        public override int Id { get; set; }
-        [JsonIgnore]
-        public override int UserId { get; set; }
+        public string Search { get; set; }
     }
 
     public class PostSearchRequestValidator : AbstractValidator<PostSearchRequest>
@@ -49,8 +46,7 @@ namespace ZBlog.Application.Posts.Request
         public PostSearchRequestValidator()
         {
             RuleFor(x => x).NotNull();
-            RuleFor(x => x.Title).NotNull().NotEmpty().MinimumLength(2);
-            RuleFor(x => x.Content).NotNull().NotEmpty().MinimumLength(2);
+            RuleFor(x => x.Search).NotNull().NotEmpty().MinimumLength(2);
         }
     }
 }

@@ -65,7 +65,7 @@ namespace ZBlog.Core.Authentication
                 expires: DateTime.Now.AddSeconds(Convert.ToInt32(_configurationService[$"{Section}:{TokenConfiguration.RefreshExpire}"])),
                 signingCredentials: GetSigningCredentials());
         }
-        public SecurityToken CreateToken(string uniqe, string jti, string auidence, string sub)
+        public SecurityToken CreateToken(string uniqe, string jti, string auidence, string sub = "authorization")
         {
             return CreateToken(new[]
             {
@@ -85,7 +85,7 @@ namespace ZBlog.Core.Authentication
             return validatedToken;
         }
 
-        public SecurityToken CreateRefreshToken(string uniqe, string jti, string audience, string sub)
+        public SecurityToken CreateRefreshToken(string uniqe, string jti, string audience, string sub = "refresh")
         {
             return CreateRefreshToken(new[]
             {

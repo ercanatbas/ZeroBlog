@@ -1,4 +1,6 @@
-﻿using ZBlog.Core.Repository;
+﻿using System.Collections.Generic;
+using ZBlog.Core.Repository;
+using ZBlog.Domain.Posts.Dtos;
 
 namespace ZBlog.Domain.Posts.Repo
 {
@@ -6,5 +8,6 @@ namespace ZBlog.Domain.Posts.Repo
     {
         Post GetPost(int userId, int postId);
         Post GetCommentForPost(int postId);
+        IEnumerable<PostSearchDto> SearchPost(string search);
     }
 }

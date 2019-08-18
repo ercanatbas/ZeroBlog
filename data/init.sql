@@ -16,8 +16,8 @@
 CREATE DATABASE IF NOT EXISTS `blog` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_turkish_ci */;
 USE `blog`;
 
--- tablo yapısı dökülüyor blog.comment
-CREATE TABLE IF NOT EXISTS `comment` (
+-- tablo yapısı dökülüyor blog.Comment
+CREATE TABLE IF NOT EXISTS `Comment` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `FirstName` varchar(50) COLLATE utf8_turkish_ci NOT NULL,
   `LastName` varchar(50) COLLATE utf8_turkish_ci NOT NULL,
@@ -32,16 +32,16 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `CreationTime` datetime DEFAULT NULL,
   `CreatorUserId` int(11) DEFAULT NULL,
   PRIMARY KEY (`Id`),
-  KEY `FK_comment_post` (`PostId`),
-  CONSTRAINT `FK_comment_post` FOREIGN KEY (`PostId`) REFERENCES `post` (`Id`)
+  KEY `FK_Comment_Post` (`PostId`),
+  CONSTRAINT `FK_Comment_Post` FOREIGN KEY (`PostId`) REFERENCES `Post` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
--- blog.comment: ~0 rows (yaklaşık) tablosu için veriler indiriliyor
-/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
+-- blog.Comment: ~0 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `Comment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Comment` ENABLE KEYS */;
 
--- tablo yapısı dökülüyor blog.post
-CREATE TABLE IF NOT EXISTS `post` (
+-- tablo yapısı dökülüyor blog.Post
+CREATE TABLE IF NOT EXISTS `Post` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Title` varchar(250) COLLATE utf8_turkish_ci NOT NULL,
   `Content` varchar(5000) COLLATE utf8_turkish_ci NOT NULL,
@@ -55,18 +55,18 @@ CREATE TABLE IF NOT EXISTS `post` (
   `CreationTime` datetime DEFAULT NULL,
   `CreatorUserId` int(11) DEFAULT NULL,
   PRIMARY KEY (`Id`),
-  KEY `FK_post_user` (`UserId`),
-  FULLTEXT KEY `Title` (`Title`),
-  FULLTEXT KEY `Content` (`Content`),
-  CONSTRAINT `FK_post_user` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`)
+  KEY `FK_Post_User` (`UserId`),
+  CONSTRAINT `FK_Post_User` FOREIGN KEY (`UserId`) REFERENCES `User` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
--- blog.post: ~0 rows (yaklaşık) tablosu için veriler indiriliyor
-/*!40000 ALTER TABLE `post` DISABLE KEYS */;
-/*!40000 ALTER TABLE `post` ENABLE KEYS */;
+ALTER TABLE `Post` ADD FULLTEXT INDEX `FullText` (`Title` ASC,`Content` ASC);
 
--- tablo yapısı dökülüyor blog.user
-CREATE TABLE IF NOT EXISTS `user` (
+-- blog.Post: ~0 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `Post` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Post` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor blog.User
+CREATE TABLE IF NOT EXISTS `User` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `FirstName` varchar(50) COLLATE utf8_turkish_ci NOT NULL,
   `LastName` varchar(50) COLLATE utf8_turkish_ci NOT NULL,
@@ -83,11 +83,11 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
--- blog.user: ~0 rows (yaklaşık) tablosu için veriler indiriliyor
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`Id`, `FirstName`, `LastName`, `MailAddress`, `Password`, `IsDeleted`, `DeleterUserId`, `DeletionTime`, `IsActive`, `LastModificationTime`, `LastModifierUserId`, `CreationTime`, `CreatorUserId`) VALUES
+-- blog.User: ~0 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `User` DISABLE KEYS */;
+INSERT INTO `User` (`Id`, `FirstName`, `LastName`, `MailAddress`, `Password`, `IsDeleted`, `DeleterUserId`, `DeletionTime`, `IsActive`, `LastModificationTime`, `LastModifierUserId`, `CreationTime`, `CreatorUserId`) VALUES
 	(1, 'admin', 'admin', 'admin@admin.com', 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', 0, NULL, NULL, 1, NULL, NULL, NULL, NULL);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+/*!40000 ALTER TABLE `User` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

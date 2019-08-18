@@ -13,9 +13,9 @@ namespace ZBlog.Core.Authentication
         SymmetricSecurityKey GetSignInKey();
         SigningCredentials GetSigningCredentials();
         TokenValidationParameters GetTokenValidationParameters();
-        SecurityToken CreateToken(IEnumerable<Claim> claims);
+        SecurityToken CreateToken(IEnumerable<Claim> claims = null);
         SecurityToken CreateRefreshToken(string uniqe, string jti, string audience, string sub = "refresh");
-        SecurityToken CreateRefreshToken(IEnumerable<Claim> claims);
+        SecurityToken CreateRefreshToken(IEnumerable<Claim> claims = null);
         SecurityToken CreateToken(string uniqe, string jti, string auidence, string sub = "authorization");
         SecurityToken Validate(string token);
 
