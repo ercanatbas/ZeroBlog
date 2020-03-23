@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  mysqldb:
+    restart: always
+    networks:
+      - znet
+    environment:
+      MYSQL_ROOT_PASSWORD: dbuserpassword
+  redis-server:
+    restart: always
+    command: /bin/bash -c 'redis-server --appendonly yes'
+    networks:
+      - znet
+    ports:
+      - 6300:6379
+  zblog.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - 5000:80
+    depends_on: 
+      - mysqldb
+      - redis-server
+    networks:
+      - znet
+
+networks:
+  znet:
+    driver: bridge
